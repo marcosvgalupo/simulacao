@@ -16,7 +16,7 @@ double uniforme(){
     return u;
 }
 
-double gera_chegada(double l){
+double gera_tempo(double l){
     return (-1.0/l) * log(uniforme());
 }
 
@@ -28,33 +28,46 @@ double min(double n1, double n2){
 
 int main(){
 
-    double l;
+    double parametro_chegada, parametro_saida;
 
     printf("Informe o tempo médio: ");
-    scanf("%lF", &l);
-    l = 1.0/l;
+    scanf("%lF", &parametro_chegada);
+    parametro_chegada = 1.0/parametro_chegada;
+
+    printf("Informe o tempo médio de atendimento: ");
+    scanf("%lF", &parametro_saida);
+    parametro_saida = 1.0/parametro_saida;
 
     double tempo_simulacao;
     printf("\nInforme o tempo de simulacao: ");
     scanf("%lF", &tempo_simulacao);
 
     double tempo_decorrido = 0.0;
-    double tempo_chegada = gera_chegada(l);
+    double tempo_chegada = gera_tempo(parametro_chegada);
     double tempo_saida = DBL_MAX;
+
+    unsigned long int fila = 0;
 
     while(tempo_decorrido <= tempo_simulacao){
         tempo_decorrido = min(tempo_chegada, tempo_saida);
 
+        //chegada
         if(tempo_decorrido == tempo_chegada){
-            
-        } else{
+            //sistema ocioso
+            if(!fila){
+                tempo_saida = tempo_decorrido + gera_tempo(parametro_saida);
+            }            
+            fila++;
 
+            tempo_chegada = tempo_decorrido + gera_tempo(parametro_chegada);
+        } else{
+            fila--;
+            tempo_saida = DBL_MAX;
+            if(fila){
+                tempo_saida = tempo_decorrido + gera_tempo(parametro_saida);
+            }    
         }
     }
-
-
-
-
 
     return 0;
 }
