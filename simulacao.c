@@ -124,6 +124,11 @@ int main(){
         }
     }
 
+    ew_chegadas.soma_areas += (tempo_decorrido - ew_chegadas.tempo_anterior) * ew_chegadas.num_eventos;
+    ew_saidas.soma_areas += (tempo_decorrido - ew_saidas.tempo_anterior) * ew_saidas.num_eventos;
+
+
+
     printf("\n========== RESULTADOS =============");
     printf("\nMaior tamanho de fila alcancado: %ld\n", fila_max);
     printf("Tempo de ocupacao: %lF\n", soma_ocupacao/tempo_decorrido);
@@ -132,7 +137,7 @@ int main(){
     double ew_final = (ew_chegadas.soma_areas - ew_saidas.soma_areas) / ew_chegadas.num_eventos; 
     double lambda = ew_chegadas.num_eventos/tempo_decorrido; // quantas pessoas chegam por unidade de tempo
 
-    printf("E[N]: %lF\n", en_final);
+    printf("E[N]: %lF\n", en_final); // média de pessoas
     printf("E[W]: %lF\n", ew_final);
     printf("Erro de Little: %lF\n", en_final - lambda * ew_final);
     return 0;
